@@ -37,28 +37,29 @@ SUBMIT_BUTTON_XPATH = './/div/button'
 
 @pytest.fixture(params=["chrome", "firefox"])
 def driver(request):
-    
+    browser = request.param
+
+    if browser == "chrome":
+        options = ChromeOptions()
+    elif browser == "firefox":
+        options = FirefoxOptions()
+    else:
+        raise Exception(f"Unsupported browser: {browser}")
+
+    # Add headless if in CI
     if os.getenv('CI'):
         options.add_argument("--headless")
+    
+    # Optional: add window size or maximization
+    options.add_argument("--start-maximized")
 
-    else:
-        browser = request.param
-        
-        if browser == "chrome":
-            options = ChromeOptions()
-            options.add_argument("--start-maximized")
-            driver = webdriver.Chrome(options=options)
-        
-        elif browser == "firefox":
-            options = FirefoxOptions()
-            options.add_argument("--start-maximized")
-            driver = webdriver.Firefox(options=options)
-        
-        else:
-            raise Exception(f"Unsupported browser: {browser}")
+    # Create driver
+    if browser == "chrome":
+        driver = webdriver.Chrome(options=options)
+    elif browser == "firefox":
+        driver = webdriver.Firefox(options=options)
 
     driver.get("https://qaplayground.dev/apps/popup/")
-
     yield driver
     driver.quit()
 
