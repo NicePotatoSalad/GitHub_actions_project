@@ -1,0 +1,53 @@
+# Это название твоего пайплайна. Появится в UI GitHub Actions.
+name: My First CI Pipeline
+
+# --- Триггер (Trigger) ---
+# Когда запускать этот пайплайн?
+# В данном случае: при каждом "пуше" (push) в ветку 'main'.
+# Или при создании/обновлении "пул-реквеста" (pull_request) в ветку 'main'.
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+# --- Задачи (Jobs) ---
+# Здесь мы описываем, что должен делать наш "робот-повар".
+jobs:
+  # Название первой и единственной задачи в этом пайплайне
+  build-and-test:
+    # --- Агент/Исполнитель (Agent/Executor) ---
+    # На какой виртуальной машине (роботе) запускать эту задачу?
+    # 'ubuntu-latest' - это свежая версия операционной системы Ubuntu Linux.
+    runs-on: ubuntu-latest
+
+    # --- Шаги (Steps) ---
+    # Список конкретных действий, которые должен выполнить "робот-повар".
+    steps:
+      # --- Этап: checkout (получение кода) ---
+      # Шаг 1: Клонировать твой репозиторий.
+      # 'uses: actions/checkout@v4' - это готовое действие от GitHub.
+      # Оно просто скачивает весь твой код на виртуальную машину, где работает пайплайн.
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # --- Этап: run_tests (выполнение команды запуска тестов) ---
+      # Шаг 2: Настроить Python на виртуальной машине.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9' # Используем версию Python 3.9
+
+      # Шаг 3: Установить зависимости твоего проекта.
+      # Предполагается, что у тебя есть файл 'requirements.txt' для Python.
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt # Устанавливаем библиотеки из файла requirements.txt
+
+      # Шаг 4: Запустить твои автотесты.
+      # 'pytest' - это команда для запуска тестов в Python.
+      - name: Run automated tests
+        run: pytest # -n auto?
