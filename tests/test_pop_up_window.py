@@ -83,7 +83,7 @@ def click_submit(driver, wait):
 
 # TESTS #
 
-def test_main_text_is_what_is_expected(driver, expected_text="Click to open pop-up -- WRONG"):
+def test_main_text_is_what_is_expected(driver, expected_text="Click to open pop-up"):
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, ".//div[@class='flex-center']/p")))
     text = driver.find_element(By.XPATH, ".//div[@class='flex-center']/p").text
 
