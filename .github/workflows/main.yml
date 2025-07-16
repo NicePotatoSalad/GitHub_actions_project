@@ -114,7 +114,7 @@ jobs:
       - name: Generate Allure Report
         run: |
           echo "Generating comprehensive Allure report..."
-          ls -R downloaded_reports/
+          ls -R reports/
 
       - name: Upload Allure Report (as artifact for Browse)
         uses: actions/upload-artifact@v4
