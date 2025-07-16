@@ -40,6 +40,8 @@ jobs:
           python-version: 3.11
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: Set PYTHONPATH
+        run: export PYTHONPATH=$PYTHONPATH:.
       - name: Run Unit Tests
         run: pytest tests/unit/ --junitxml=reports/unit_results.xml
       - name: Run API Tests
@@ -99,17 +101,17 @@ jobs:
     needs: [api_and_unit_tests, E2E_tests]
     if: always()
     steps:
-      # - name: Download Unit/API Test Reports
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: unit-api-test-reports
-      #     path: downloaded_reports/unit-api/
+      - name: Download Unit/API Test Reports
+        uses: actions/download-artifact@v4
+        with:
+          name: unit-api-test-reports
+          path: downloaded_reports/unit-api/
           
-      # - name: Download E2E Test Reports
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: e2e-test-reports-* # Попытка скачать по маске (не всегда работает с download-artifact напрямую)
-      #     path: downloaded_reports/e2e/
+      - name: Download E2E Test Reports
+        uses: actions/download-artifact@v4
+        with:
+          name: e2e-reports
+          path: downloaded_reports/e2e/
       
       - name: Generate Allure Report
         run: |
