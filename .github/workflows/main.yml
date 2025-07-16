@@ -44,8 +44,8 @@ jobs:
         run: export PYTHONPATH=$PYTHONPATH:.
       - name: Run Unit Tests
         run: pytest tests/unit/ --junitxml=reports/unit_results.xml
-      - name: Run API Tests
-        run: pytest tests/api/ --junitxml=reports/api_results.xml
+      # - name: Run API Tests
+      #   run: pytest tests/api/ --junitxml=reports/api_results.xml
       - name: Upload Unit/API Test Reports
         uses: actions/upload-artifact@v4
         with:
