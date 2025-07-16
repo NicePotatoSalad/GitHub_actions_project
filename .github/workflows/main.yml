@@ -40,12 +40,20 @@ jobs:
           python-version: 3.11
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Set PYTHONPATH
-        run: export PYTHONPATH=$PYTHONPATH:.
-      - name: Run Unit Tests
-        run: pytest tests/unit/ --junitxml=reports/unit_results.xml
-      # - name: Run API Tests
-      #   run: pytest tests/api/ --junitxml=reports/api_results.xml
+      - name: Run Unit and API Tests with PYTHONPATH # Changed step name for clarity
+        run: |
+          # 1. Set the PYTHONPATH environment variable for this shell session.
+          #    '.' refers to the current working directory, which is the repository root.
+          export PYTHONPATH=$PYTHONPATH:. 
+          
+          # 2. (Optional but good practice): Create the reports directory if it doesn't exist.
+          mkdir -p reports/ 
+          
+          # 3. Now run pytest. It will use the PYTHONPATH from this same shell.
+          pytest tests/unit/ --junitxml=reports/unit_results.xml
+          pytest tests/api/ --junitxml=reports/api_results.xml
+
+
       - name: Upload Unit/API Test Reports
         uses: actions/upload-artifact@v4
         with:
