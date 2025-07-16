@@ -133,13 +133,15 @@ jobs:
       - name: Generate Allure Report
         run: |
           echo "Generating comprehensive Allure report..."
-          ls -R reports/
+          ls -R downloaded_reports/
+          mkdir -p allure-report
+          echo "Allure report placeholder generated." > allure-report/index.html
 
       - name: Upload Allure Report (as artifact for Browse)
         uses: actions/upload-artifact@v4
         with:
           name: allure-html-report
-          path: allure-report/
+          path: allure-downloaded_reports/
 
       - name: Send Slack Notification
         run: echo "Sending Slack notification about pipeline status."
