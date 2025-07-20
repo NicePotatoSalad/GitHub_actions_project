@@ -1,7 +1,7 @@
 Tasks:
     1. Logical stages (build, api_and_unit_tests, deploy, e2e_tests, publish_report) -- ✅
     2. Dependencies -- ✅
-    3. Conditional execution -- 
+    3. Conditional execution -- ✅ 
         Обязательное условие: 
             Развертывание на "Production" (если ты его добавишь) должно происходить
             только при мёрже в ветку main И вручную, через одобрение (вспомни, как мы это обсуждали).
