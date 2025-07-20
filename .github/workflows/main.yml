@@ -1,19 +1,12 @@
 name: Pipeline
 
 on:
-  # push:
-  #   branches:
-  #     - advanced_pipeline_implem
-  # pull_request:
-  #   branches:
-  #     - advanced_pipeline_implem
-  workflow_dispatch:
-    inputs:
-      run_e2e_tests:
-        description: 'Run End-to-End (E2E) tests?'
-        required: false
-        default: false
-        type: boolean
+  push:
+    branches:
+      - '**' # Run on all branches for pull requests
+  pull_request:
+    branches:
+      - '**' 
 
 jobs:
   build:
@@ -95,7 +88,8 @@ jobs:
     # This job will ONLY run if:
     # 1. The event that triggered the workflow is 'workflow_dispatch' (manual run)
     # 2. AND the 'run_e2e_tests' input for that manual run was set to 'true'
-    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_e2e_tests == 'true' }}
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    timeout-minutes: 30 # Set a timeout for long-running E2E tests
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
