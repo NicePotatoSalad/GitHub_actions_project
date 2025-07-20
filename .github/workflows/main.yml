@@ -104,7 +104,7 @@ jobs:
           mkdir -p reports/ 
           
           # 3. Now run pytest. It will use the PYTHONPATH from this same shell.
-          pytest tests/ui/ --junitxml=reports/ui_results.xml
+          pytest tests/ui/ --junitxml=reports/ui_results.xml -n auto
       - name: Upload E2E Test Reports
         uses: actions/upload-artifact@v4
         with:
