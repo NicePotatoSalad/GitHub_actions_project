@@ -7,6 +7,13 @@ on:
   pull_request:
     branches:
       - advanced_pipeline_implem
+  workflow_dispatch:
+    inputs:
+      run_e2e_tests:
+        description: 'Run End-to-End (E2E) tests?'
+        required: false
+        default: false
+        type: boolean
 
 jobs:
   build:
@@ -85,6 +92,7 @@ jobs:
   E2E_tests:
     runs-on: ubuntu-latest
     needs: deploy
+    # todo: Manual trigger
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
