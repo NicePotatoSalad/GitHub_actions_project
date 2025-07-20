@@ -151,7 +151,7 @@ jobs:
     # TODO: Condition
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
-      name: production
+      name: production # ? Why do i do that again?
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
