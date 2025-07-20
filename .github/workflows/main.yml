@@ -1,12 +1,12 @@
 name: Pipeline
 
 on:
-  push:
-    branches:
-      - advanced_pipeline_implem
-  pull_request:
-    branches:
-      - advanced_pipeline_implem
+  # push:
+  #   branches:
+  #     - advanced_pipeline_implem
+  # pull_request:
+  #   branches:
+  #     - advanced_pipeline_implem
   workflow_dispatch:
     inputs:
       run_e2e_tests:
