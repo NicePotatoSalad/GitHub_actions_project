@@ -145,3 +145,12 @@ jobs:
 
       - name: Send Slack Notification
         run: echo "Sending Slack notification about pipeline status."
+  deploy_to_production:
+    runs-on: ubuntu-latest
+    needs: [E2E_tests]
+    # TODO: Condition
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Deploy to Production
+        run: echo "Deploying app to Production environment!"
