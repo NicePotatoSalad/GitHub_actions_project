@@ -92,7 +92,10 @@ jobs:
   E2E_tests:
     runs-on: ubuntu-latest
     needs: deploy
-    # todo: Manual trigger
+    # This job will ONLY run if:
+    # 1. The event that triggered the workflow is 'workflow_dispatch' (manual run)
+    # 2. AND the 'run_e2e_tests' input for that manual run was set to 'true'
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.run_e2e_tests == 'true' }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
