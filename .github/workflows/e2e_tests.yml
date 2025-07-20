@@ -1,4 +1,4 @@
-name: Pipeline W/O E2E tests
+name: E2E Tests Pipeline
 
 on:
   workflow_dispatch:
@@ -6,10 +6,10 @@ on:
       # Первый параметр: 'browser'
       browser:
         description: 'Browser to run tests on' # Описание параметра в UI
-        required: true                     # Обязательный параметр
-        default: 'chrome'                  # Значение по умолчанию
-        type: choice                       # Тип параметра (выбор из списка)
-        options:                           # Варианты выбора
+        required: true                       # Обязательный параметр
+        default: 'chrome'                    # Значение по умолчанию
+        type: choice                         # Тип параметра (выбор из списка)
+        options:                             # Варианты выбора
           - 'chrome'
           - 'firefox'
           - 'edge'
@@ -33,14 +33,14 @@ jobs:
           python-version: 3.11
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Build application 
+      - name: Build application
         run: echo "Simulating application build..." && mkdir -p build && echo "App version 1.0.0" > build/my_app_info.txt
       - name: Upload application build artifact
         uses: actions/upload-artifact@v4
         with:
           name: application-build
           path: build/
-  
+
   deploy:
     runs-on: ubuntu-latest
     needs: [build]
@@ -53,7 +53,6 @@ jobs:
           python-version: 3.11
       - name: Install dependencies
         run: pip install -r requirements.txt
-
       - name: Download build artifact from build step
         uses: actions/download-artifact@v4
         with:
@@ -65,9 +64,7 @@ jobs:
   E2E_tests:
     runs-on: ubuntu-latest
     needs: deploy
-    # This job will ONLY run if:
-    # 1. The event that triggered the workflow is 'workflow_dispatch' (manual run)
-    # 2. AND the 'run_e2e_tests' input for that manual run was set to 'true'
+    # This job will ONLY run if the event is a 'push' to the 'main' branch.
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     timeout-minutes: 30 # Set a timeout for long-running E2E tests
     steps:
@@ -83,11 +80,11 @@ jobs:
         run: |
           # 1. Set the PYTHONPATH environment variable for this shell session.
           #    '.' refers to the current working directory, which is the repository root.
-          export PYTHONPATH=$PYTHONPATH:. 
-          
+          export PYTHONPATH=$PYTHONPATH:.
+
           # 2. (Optional but good practice): Create the reports directory if it doesn't exist.
-          mkdir -p reports/ 
-          
+          mkdir -p reports/
+
           # 3. Now run pytest. It will use the PYTHONPATH from this same shell.
           pytest tests/ui/ --junitxml=reports/ui_results.xml -n auto
       - name: Upload E2E Test Reports
@@ -96,19 +93,22 @@ jobs:
           name: e2e-reports
           path: reports/
           if-no-files-found: ignore
-      
 
   publish_report:
     runs-on: ubuntu-latest
-    needs: [E2E_tests]
-    if: always()
+    # The 'api_and_unit_tests' job was missing from your provided YAML,
+    # so I've commented out its dependency here. If you intend to re-add it,
+    # uncomment 'api_and_unit_tests' in the needs array and define the job.
+    needs: [E2E_tests] # Removed api_and_unit_tests as it's not in the provided YAML
+    if: always() # This ensures the report job runs even if E2E_tests is skipped
     steps:
-      - name: Download Unit/API Test Reports
-        uses: actions/download-artifact@v4
-        with:
-          name: unit-api-test-reports
-          path: downloaded_reports/unit-api/
-          
+      # If 'api_and_unit_tests' job is re-added, uncomment this step
+      # - name: Download Unit/API Test Reports
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: unit-api-test-reports
+      #     path: downloaded_reports/unit-api/
+
       - name: Download E2E Test Reports
         # This makes sure this step only runs if the job it 'needs' ran
         if: ${{ needs.E2E_tests.result != 'skipped' }}
@@ -116,7 +116,7 @@ jobs:
         with:
           name: e2e-reports
           path: downloaded_reports/e2e/
-      
+
       - name: Generate Allure Report
         run: |
           echo "Generating comprehensive Allure report..."
@@ -132,13 +132,13 @@ jobs:
 
       - name: Send Slack Notification
         run: echo "Sending Slack notification about pipeline status."
-        
+
   deploy_to_production:
     runs-on: ubuntu-latest
     needs: [E2E_tests]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
-      name: production # ? Why do i do that again?
+      name: production
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
