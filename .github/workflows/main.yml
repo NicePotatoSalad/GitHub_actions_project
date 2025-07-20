@@ -75,7 +75,7 @@ jobs:
         run: pip install -r requirements.txt
       - name: Deploy to staging environment
         run: echo Deploy to staging environment
-      - name: Upload application build artifact
+      - name: Upload application build artifact # ! I've uploaded the build artifact in build job, why here as well?
         uses: actions/upload-artifact@v4
         with:
           name: application-build
@@ -141,7 +141,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-html-report
-          path: allure-downloaded_reports/
+          path: allure-report/
 
       - name: Send Slack Notification
         run: echo "Sending Slack notification about pipeline status."
