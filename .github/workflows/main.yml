@@ -3,10 +3,10 @@ name: Pipeline
 on:
   push:
     branches:
-      - '**' # Run on all branches for pull requests
+      - advanced_pipeline_implem
   pull_request:
     branches:
-      - '**' 
+      - advanced_pipeline_implem
 
 jobs:
   build:
