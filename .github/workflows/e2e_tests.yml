@@ -102,19 +102,9 @@ jobs:
 
   publish_report:
     runs-on: ubuntu-latest
-    # The 'api_and_unit_tests' job was missing from your provided YAML,
-    # so I've commented out its dependency here. If you intend to re-add it,
-    # uncomment 'api_and_unit_tests' in the needs array and define the job.
-    needs: [E2E_tests] # Removed api_and_unit_tests as it's not in the provided YAML
-    if: always() # This ensures the report job runs even if E2E_tests is skipped
+    needs: [E2E_tests] 
+    if: always() 
     steps:
-      # If 'api_and_unit_tests' job is re-added, uncomment this step
-      # - name: Download Unit/API Test Reports
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: unit-api-test-reports
-      #     path: downloaded_reports/unit-api/
-
       - name: Download E2E Test Reports
         # This makes sure this step only runs if the job it 'needs' ran
         if: ${{ needs.E2E_tests.result != 'skipped' }}
@@ -124,6 +114,7 @@ jobs:
           path: downloaded_reports/e2e/
 
       - name: Generate Allure Report
+        if: ${{ needs.E2E_tests.result != 'skipped' }}
         run: |
           echo "Generating comprehensive Allure report..."
           ls -R downloaded_reports/
