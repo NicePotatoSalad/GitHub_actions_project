@@ -1,25 +1,31 @@
 name: E2E Tests Pipeline
 
 on:
-  workflow_dispatch:
-    inputs:
-      # Первый параметр: 'browser'
-      browser:
-        description: 'Browser to run tests on' # Описание параметра в UI
-        required: true                       # Обязательный параметр
-        default: 'chrome'                    # Значение по умолчанию
-        type: choice                         # Тип параметра (выбор из списка)
-        options:                             # Варианты выбора
-          - 'chrome'
-          - 'firefox'
-          - 'edge'
+  # workflow_dispatch:
+  #   inputs:
+  #     # Первый параметр: 'browser'
+  #     browser:
+  #       description: 'Browser to run tests on' # Описание параметра в UI
+  #       required: true                       # Обязательный параметр
+  #       default: 'chrome'                    # Значение по умолчанию
+  #       type: choice                         # Тип параметра (выбор из списка)
+  #       options:                             # Варианты выбора
+  #         - 'chrome'
+  #         - 'firefox'
+  #         - 'edge'
 
-      # Второй параметр: 'environment'
-      environment:
-        description: 'Deployment environment'
-        required: false
-        default: 'staging'
-        type: string # Свободный ввод строки
+  #     # Второй параметр: 'environment'
+  #     environment:
+  #       description: 'Deployment environment'
+  #       required: false
+  #       default: 'staging'
+  #       type: string # Свободный ввод строки
+  push:
+    branches:
+      - advanced_pipeline_implem
+  pull_request:
+    branches:
+      - advanced_pipeline_implem
 
 jobs:
   build:
