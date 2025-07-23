@@ -100,7 +100,8 @@ def test_open_button_is_clickable(driver):
     assert button.is_displayed(), 'Button is not displayed'
     assert button.is_enabled(), 'Button is not clickable'
 
-def test_open_button_text_is_what_is_expected(driver, expected_text="OPEN"):
+# XFAILED. "OPEN" is expected. 
+def test_open_button_text_is_what_is_expected(driver, expected_text="CLOSE"):
     text = driver.find_element(By.XPATH, OPEN_BUTTON_XPATH).text
 
     assert text == expected_text, f'Real text is {text}, while has to be {expected_text}'
