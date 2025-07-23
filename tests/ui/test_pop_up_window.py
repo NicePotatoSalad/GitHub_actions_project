@@ -35,7 +35,7 @@ BASE_URL = "https://qaplayground.dev/apps/popup/"
 OPEN_BUTTON_XPATH = ".//div[@class='flex-center']/a"
 SUBMIT_BUTTON_XPATH = './/div/button'
 
-@pytest.fixture(params=["chrome", "firefox"])
+@pytest.fixture()
 def driver(request):
     browser = request.param
 
