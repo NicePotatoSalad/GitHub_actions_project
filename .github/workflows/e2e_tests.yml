@@ -82,15 +82,15 @@ jobs:
           python-version: 3.11
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: Create reports directory
+        run: mkdir -p reports/
       - name: Run E2E Tests with PYTHONPATH 
         run: |
           # 1. Set the PYTHONPATH environment variable for this shell session.
           #    '.' refers to the current working directory, which is the repository root.
           export PYTHONPATH=$PYTHONPATH:.
 
-          mkdir -p reports/
-
-          # 3. Now run pytest. It will use the PYTHONPATH from this same shell.
+          # 2. Now run pytest. It will use the PYTHONPATH from this same shell.
           pytest tests/ui/ --junitxml=reports/ui_results.xml --browser=${{ github.event.inputs.browser }} 
         env:
           CI: 'true'
