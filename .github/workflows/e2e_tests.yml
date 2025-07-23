@@ -91,7 +91,7 @@ jobs:
           mkdir -p reports/
 
           # 3. Now run pytest. It will use the PYTHONPATH from this same shell.
-          pytest tests/ui/ --junitxml=reports/ui_results.xml --browser ${{ github.event.inputs.browser }} 
+          pytest tests/ui/ --junitxml=reports/ui_results.xml --browser=${{ github.event.inputs.browser }} 
         env:
           CI: 'true'
       - name: Upload E2E Test Reports
