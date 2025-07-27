@@ -19,18 +19,10 @@
 # 13. HTTPS request of a submit button is 200
 
 
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.chrome.options import Options
-import pytest
 import requests
-import os
-
-from selenium.webdriver.chrome.options import Options as ChromeOptions
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.edge.options import Options as EdgeOptions
 
 BASE_URL = "https://qaplayground.dev/apps/popup/"
 OPEN_BUTTON_XPATH = ".//div[@class='flex-center']/a"
