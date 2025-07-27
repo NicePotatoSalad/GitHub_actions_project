@@ -218,15 +218,3 @@ def test_URL_of_the_pop_up_page_is_changed_to_what_is_expected(driver, expected_
         f"Real URL is {real_url}, "
         f"but has to be {original_url + expected_url_ending}"
     )
-
-# 12. HTTPS request of an open button is 200
-def test_HTTPS_request_of_open_button_is_200():
-    response = requests.get('https://qaplayground.dev/apps/popup/')
-
-    assert response.status_code == 200  
-
-# 13. HTTPS request of a submit button is 200
-def test_HTTPS_request_of_submit_button_is_200():
-    response = requests.get('https://qaplayground.dev/apps/popup/popup')
-
-    assert response.status_code == 200

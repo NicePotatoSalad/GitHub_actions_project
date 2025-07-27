@@ -22,3 +22,15 @@ def test_get_non_existing_user():
 #     response = requests.get(f"{MOCKED_API_URL}1")
 #     assert response.status_code == 200
 #     assert response.json()["name"] == "Test User"
+
+# 12. HTTPS request of an open button is 200
+def test_HTTPS_request_of_open_button_is_200():
+    response = requests.get('https://qaplayground.dev/apps/popup/')
+
+    assert response.status_code == 200  
+
+# 13. HTTPS request of a submit button is 200
+def test_HTTPS_request_of_submit_button_is_200():
+    response = requests.get('https://qaplayground.dev/apps/popup/popup')
+
+    assert response.status_code == 200
