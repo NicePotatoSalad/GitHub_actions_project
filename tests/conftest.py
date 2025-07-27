@@ -8,7 +8,7 @@ from selenium.webdriver.firefox import options as FirefoxOptions
 from selenium import webdriver
 
 def pytest_addoption(parser):
-    parser.add_option(
+    parser.addoption(
         "--browser", action="store", default="chrome", help="browser to run tests on (chrome, firefox, edge)"
     )
 
