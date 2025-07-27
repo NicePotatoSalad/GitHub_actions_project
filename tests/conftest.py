@@ -28,6 +28,7 @@ def pytest_generate_tests(metafunc):
 @pytest.fixture(scope="function") # No params here, handled by pytest_generate_tests
 def driver(request):
     browser = request.param # This now comes from pytest_generate_tests based on CLI option
+    print(f"\n--- Running tests on: {browser.upper()} ---")
 
     if browser == "chrome":
         options = ChromeOptions()
