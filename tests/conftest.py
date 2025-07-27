@@ -1,9 +1,9 @@
 import pytest
 import os
 
-from selenium.webdriver.chrome import options as ChromeOptions
-from selenium.webdriver.edge import options as EdgeOptions
-from selenium.webdriver.firefox import options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.edge.options import Options as EdgeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 from selenium import webdriver
 
