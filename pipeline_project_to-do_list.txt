@@ -10,4 +10,4 @@ Tasks:
             долгие тесты (например, UI) не запускались для каждой ветки, а только для main или по 
             ручному триггеру.
     4. Manage artifacts -- ✅
-    5. Pipeline parametrization -- 
+    5. Pipeline parametrization -- ✅
