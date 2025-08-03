@@ -1,0 +1,25 @@
+#  Опишите три сервиса: 
+  # - selenium-hub
+  # - selenium-node-chrome 
+  # - tests service
+
+version: '3.8'
+
+services:
+  selenium-hub:
+    image: selenium/hub
+    container_name: selenium-hub
+    ports:
+      - '4444:4444'
+
+  selenium-node-chrome:
+    image: selenium/node-chrome
+    container-name: selenium-node-chrome
+    depends-on: selenium-hub
+  
+  tests:
+    build: .
+    container-name: tests
+    depends_on:
+      - selenium-node-chrome
+    command: pytest tests/api/ -n auto
