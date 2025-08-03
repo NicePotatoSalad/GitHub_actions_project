@@ -22,4 +22,5 @@ services:
     container-name: tests
     depends_on:
       - selenium-node-chrome
+      - selenium-hub
     command: pytest tests/api/ -n auto
