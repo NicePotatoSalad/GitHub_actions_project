@@ -14,13 +14,13 @@ services:
 
   selenium-node-chrome:
     image: selenium/node-chrome
-    container-name: selenium-node-chrome
+    container_name: selenium-node-chrome
     depends-on: selenium-hub
   
   tests:
     build: .
-    container-name: tests
+    container_name: tests
     depends_on:
       - selenium-node-chrome
       - selenium-hub
-    command: pytest tests/api/ -n auto
+    command: pytest tests/ui/ -n auto
