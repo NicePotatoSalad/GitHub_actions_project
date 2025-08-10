@@ -40,7 +40,7 @@ jobs:
           python-version: 3.11
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Run Unit and API Tests with PYTHONPATH # * Changed step name for clarity
+      - name: Run Unit and API Tests with PYTHONPATH # Changed step name for clarity
         run: |
           # 1. Set the PYTHONPATH environment variable for this shell session.
           #    '.' refers to the current working directory, which is the repository root.
