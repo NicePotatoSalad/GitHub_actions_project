@@ -22,9 +22,7 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-import requests
 
-BASE_URL = "https://qaplayground.dev/apps/popup/"
 OPEN_BUTTON_XPATH = ".//div[@class='flex-center']/a"
 SUBMIT_BUTTON_XPATH = './/div/button'
 
