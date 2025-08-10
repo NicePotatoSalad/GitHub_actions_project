@@ -3,10 +3,10 @@ name: Pipeline E2E tests with Docker
 on:
   push:
     branches:
-      - advanced_pipeline_implem
+      - docker_implem
   pull_request:
     branches:
-      - advanced_pipeline_implem
+      - docker_implem
 
 jobs:
   build:
