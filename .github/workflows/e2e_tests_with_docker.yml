@@ -40,6 +40,9 @@ jobs:
       selenium-node-chrome:
         image: selenium/node-chrome:latest
 
+      selenium-node-firefox:
+        image: selenium/node-firefox
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
