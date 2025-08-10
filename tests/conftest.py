@@ -10,7 +10,7 @@ from selenium import webdriver
 
 
 BASE_URL = "https://qaplayground.dev/apps/popup/"
-SELENIUM_GRID_URL = "http://localhost:4444" 
+SELENIUM_GRID_URL = os.getenv("SELENIUM_GRID_URL", "http://localhost:4444") 
 SUPPORTED_BROWSERS = ["chrome", "firefox", "edge"]
 DEFAULT_TO_RUN_BROWSERS = ["chrome", "firefox"] # in case browser wasn't specified
 

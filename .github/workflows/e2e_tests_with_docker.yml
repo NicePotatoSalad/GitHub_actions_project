@@ -39,6 +39,7 @@ jobs:
 
       selenium-node-chrome:
         image: selenium/node-chrome:latest
+        
 
       selenium-node-firefox:
         image: selenium/node-firefox
@@ -60,6 +61,8 @@ jobs:
           export PYTHONPATH=$PYTHONPATH:. 
           mkdir -p reports/
           pytest tests/ui -n auto --junitxml=reports/e2e_tests_results.xml
+        env:
+          SELENIUM_GRID_URL: http://selenium-hub:4444
       
       # - name: Upload E2E Test Reports
       #   uses: actions/upload-artifact@v4
