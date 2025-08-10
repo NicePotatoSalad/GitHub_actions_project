@@ -38,7 +38,7 @@ jobs:
 
       selenium-node-chrome:
         image: selenium/node-chrome:latest
-    
+        # Luanch 
     steps:
       # All your regular steps go here...
       - name: Checkout code
