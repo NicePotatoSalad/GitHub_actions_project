@@ -39,6 +39,8 @@ def pytest_generate_tests(metafunc):
         else:
             browsers_to_run = DEFAULT_TO_RUN_BROWSERS
 
+    metafunc.parametrize("driver", browsers_to_run, scope="function", indirect=True)
+
 
 @pytest.fixture(scope="function") # No params here, handled by pytest_generate_tests
 def driver(request):
