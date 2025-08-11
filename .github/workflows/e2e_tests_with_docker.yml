@@ -14,10 +14,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set up python 3.11
+      - name: Set up python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.13
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Build application 
@@ -35,24 +35,38 @@ jobs:
       selenium-hub:
         image: selenium/hub:latest
         ports: 
-          - '4444:4444'
+          - 4444:4444
 
       selenium-node-chrome:
         image: selenium/node-chrome:latest
+        env:
+          SE_EVENT_BUS_HOST: selenium-hub
+          SE_EVENT_BUS_PUBLISH_PORT: 4442
+          SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
         
 
       selenium-node-firefox:
-        image: selenium/node-firefox
+        image: selenium/node-firefox:latest
+        env:
+          SE_EVENT_BUS_HOST: selenium-hub
+          SE_EVENT_BUS_PUBLISH_PORT: 4442
+          SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up python 3.11
+      - name: Set up python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11
+          python-version: 3.13
 
+
+      - name: Download application build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: application-buildb
+          path: build/
       - name: Install dependencies
         run: pip install -r requirements.txt
       
@@ -60,7 +74,7 @@ jobs:
         run: |
           export PYTHONPATH=$PYTHONPATH:. 
           mkdir -p reports/
-          pytest tests/ui -n auto --junitxml=reports/e2e_tests_results.xml
+          pytest tests/ui -s -v -n auto --junitxml=reports/e2e_tests_results.xml --browser chrome
         env:
           SELENIUM_GRID_URL: http://selenium-hub:4444
       
