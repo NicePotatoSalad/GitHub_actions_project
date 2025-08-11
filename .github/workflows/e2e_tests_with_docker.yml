@@ -14,10 +14,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Set up python 3.13
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: 3.13
+          python-version: 3.11
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: Build application 
@@ -33,20 +33,24 @@ jobs:
     needs: build
     services:
       selenium-hub:
-        image: selenium/hub:latest
-        ports: 
+        image: selenium/hub:4.25.0
+        ports:
           - 4444:4444
+        options: >-
+          --health-cmd='curl -f http://localhost:4444/status || exit 1'
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
 
       selenium-node-chrome:
-        image: selenium/node-chrome:latest
+        image: selenium/node-chrome:4.25.0
         env:
           SE_EVENT_BUS_HOST: selenium-hub
           SE_EVENT_BUS_PUBLISH_PORT: 4442
           SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
-        
 
       selenium-node-firefox:
-        image: selenium/node-firefox:latest
+        image: selenium/node-firefox:4.25.0
         env:
           SE_EVENT_BUS_HOST: selenium-hub
           SE_EVENT_BUS_PUBLISH_PORT: 4442
@@ -56,35 +60,39 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up python 3.13
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: 3.13
+          python-version: 3.11
 
-
-      # - name: Download application build artifact
-      #   uses: actions/download-artifact@v4
-      #   with:
-      #     name: application-buildb
-      #     path: build/
       - name: Install dependencies
         run: pip install -r requirements.txt
-      
+
+      - name: Wait for Selenium Grid to be ready
+        run: |
+          echo "Waiting for Selenium Grid..."
+          for i in {1..30}; do
+            if curl -s http://selenium-hub:4444/status | grep -q '"ready":true'; then
+              echo "Grid is ready!"
+              break
+            fi
+            echo "Still waiting..."
+            sleep 2
+          done
+
       - name: Run E2E Tests
         run: |
           export PYTHONPATH=$PYTHONPATH:. 
           mkdir -p reports/
-          pytest tests/ui -s -v -n auto --junitxml=reports/e2e_tests_results.xml --browser chrome
+          pytest tests/ui -n auto --junitxml=reports/e2e_tests_results.xml --browser $BROWSERS
         env:
           SELENIUM_GRID_URL: http://selenium-hub:4444
-      
+          BROWSERS: chrome,firefox  # Change this to "chrome" if you want to debug one browser
+
+      # Uncomment to upload test reports
       # - name: Upload E2E Test Reports
       #   uses: actions/upload-artifact@v4
       #   with:
       #     name: e2e_tests_report
       #     path: reports/
       #     if-no-files-found: ignore
-
-      
-  
-    
