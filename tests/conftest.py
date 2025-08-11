@@ -65,13 +65,14 @@ def driver(request):
         options.add_argument("--headless")
 
     try:
-        driver = webdriver.Remote(
-            command_executor=f"{SELENIUM_GRID_URL}/wd/hub",
-            options=options
-        )
+        # driver = webdriver.Remote(
+        #     command_executor=f"{SELENIUM_GRID_URL}/wd/hub",
+        #     options=options
+        # )
+        webdriver.Remote(command_executor="http://localhost:4444/wd/hub")
+
     except Exception as e:
-        print(f"Ошибка подключения к Selenium Grid: {e}")
-        logging.error(f"Ошибка подключения к Selenium Grid: {e}")
+        logging.error(f"Connection Error to Selenium Grid: {e}")
         raise
 
 
