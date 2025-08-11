@@ -63,15 +63,17 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Wait for Selenium Grid to be ready
+      - name: Wait for Selenium Grid to have available slots
         run: |
-          echo "Waiting for Selenium Grid..."
+          echo "Waiting for Selenium Grid to have available slots..."
           for i in {1..30}; do
-            if curl -s http://selenium-hub:4444/status | grep -q '"ready":true'; then
-              echo "Grid is ready!"
+            READY=$(curl -s http://selenium-hub:4444/status | jq '.value.ready')
+            SLOTS=$(curl -s http://selenium-hub:4444/status | jq '.value.nodes | map(.slots | length) | add')
+            if [ "$READY" = "true" ] && [ "$SLOTS" -gt 0 ]; then
+              echo "Grid ready with $SLOTS slots!"
               break
             fi
-            echo "Still waiting..."
+            echo "Still waiting ($i)..."
             sleep 2
           done
 
