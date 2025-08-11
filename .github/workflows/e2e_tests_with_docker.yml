@@ -62,11 +62,11 @@ jobs:
           python-version: 3.13
 
 
-      - name: Download application build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: application-buildb
-          path: build/
+      # - name: Download application build artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: application-buildb
+      #     path: build/
       - name: Install dependencies
         run: pip install -r requirements.txt
       
